@@ -1,14 +1,22 @@
+from django.conf import settings
+from django.utils.importlib import import_module
+
 from websettings.backends import backend_module
 
 
 class SettingStoreMetaClass(type):
-    def __new__(cls, name, bases, attrs):
-        p = super(SettingStoreMetaClass, cls)
-        if name == 'SettingStore':
-            return p.__new__(cls, name, bases, attrs)
-        module = attrs.pop('__module__')
-        new_class = p.__new__(cls, name, bases, {'__module__': module})
-        new_class.settings = attrs.copy()
+    def __new__(cls, *args, **kwargs):
+        super_new = super(SettingStoreMetaClass, cls).__new__
+        new_class = super_new(cls, *args, **kwargs)
+
+        mod_path = settings.WEBSETTINGS_MODULE
+        mod = import_module(mod_path)
+        new_class.settings = {}
+
+        for setting in dir(mod):
+            if setting == setting.upper():
+                setting_value = getattr(mod, setting)
+                new_class.settings[setting] = setting_value
 
         return new_class
 

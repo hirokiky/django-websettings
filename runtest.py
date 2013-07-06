@@ -33,6 +33,8 @@ def main():
     )
     global_settings.SECRET_KEY = "secret_key_for_testing"
 
+    global_settings.WEBSETTINGS_MODULE = 'websettings.tests.settingstore'
+
     from django.test.utils import get_runner
     test_runner = get_runner(global_settings)
 
