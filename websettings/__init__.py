@@ -1,0 +1,1 @@
+from websettings.base import SettingStore
