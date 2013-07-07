@@ -1,0 +1,4 @@
+{% for k, v in websettings %}
+  {{ k }}: {{ v }}<br />
+{% endfor %}
+<a href="{% url 'websettings.views.edit_view' %}">edit</a>
