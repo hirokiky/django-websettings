@@ -1,4 +1,20 @@
-{% for k, v in websettings %}
-  {{ k }}: {{ v }}<br />
-{% endfor %}
-<a href="{% url 'websettings.views.edit_view' %}">edit</a>
+{% extends "websettings/base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="span8 offset2">
+            <form class="form-horizontal">
+                <fieldset>
+                    {% for k, v in websettings %}
+                        <div class="control-group">
+                            <label class="control-label" for="id_{{ k }}">{{ k }}</label>
+                            <div class="controls">
+                                <input type="text" id="id_{{ k }}" value="{{ v }}" maxlength="255" disabled />
+                            </div>
+                        </div>
+                    {% endfor %}
+                </fieldset>
+            </form>
+            <a class="btn" href="{% url 'websettings.views.edit_view' %}">Edit</a>
+        </div><!-- span8 offset2 -->
+    </div><!-- row -->
+{% endblock content %}

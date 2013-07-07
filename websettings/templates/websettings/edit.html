@@ -1,7 +1,24 @@
-<form action="{% url 'websettings.views.edit_view' %}" method="post">
-{% csrf_token %}
-{% for field in form %}
-  {{ field.label }}: {{ field }}<br />
-{% endfor %}
-<input type="submit" value="submit" />
-</form>
+{% extends "websettings/base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="span8 offset2">
+            {% if form.non_field_errors %}<p class="text-warning">{{ form.non_field_errors }}</p>{% endif %}
+            <form class="form-horizontal" action="{% url 'websettings.views.edit_view' %}" method="post">
+                {% csrf_token %}
+                <fieldset>
+                    {% for field in form %}
+                        <div class="control-group{% if field.errors %} error{% endif %}">
+                            <label class="control-label" for="{{ field.auto_id }}">{{ field.label_tag }}</label>
+                            <div class="controls">
+                                {{ field }}
+                                {% if field.errors %}<span class="help-inline">{{ field.errors }}</span>{% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <a class="btn" href="{% url 'websettings.views.list_view' %}">Cancel</a>
+                </fieldset>
+            </form>
+        </div><!-- span8 offset2 -->
+    </div><!-- row -->
+{% endblock content %}
