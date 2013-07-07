@@ -25,7 +25,6 @@ def main():
             'NAME': ':memory:',
         }
     }
-    global_settings.ROOT_URLCONF='beproud.django.asyncapi.tests.test_urls'
     global_settings.MIDDLEWARE_CLASSES = (
         'django.middleware.common.CommonMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
