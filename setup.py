@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-setup(name='websettings',
+setup(name='django-websettings',
       version='0.0.1',
       description="Django application to provide a web interface "
                   "to set a yet another django's settings",
