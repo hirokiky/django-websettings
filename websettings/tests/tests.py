@@ -5,6 +5,7 @@ __all__ = (
     'AdminRequiredTest',
     'DBBackendTest',
     'DBSettingStoreTest',
+    'SettingStoreTest',
 )
 
 
@@ -78,6 +79,39 @@ class AdminRequiredTest(TestCase):
         with self.settings(LOGIN_URL='/dummy/'):
             result = target(req)
             self.assertEqual(result['Location'], '/dummy/')
+
+
+class SettingStoreTest(TestCase):
+    def _getTarget(self):
+        from websettings.base import SettingStore
+        return SettingStore
+
+    def _makeOne(self, backend_module):
+        target_class = self._getTarget()
+        target = target_class()
+        target.backend_module = backend_module
+        return target
+
+    def test_getattr(self):
+        class Dummy(object):
+            def getsetting(self, item):
+                return item
+        target = self._makeOne(Dummy())
+        target.settings = {'DRUM': 'before'}
+        self.assertEqual(target.DRUM, 'DRUM')
+
+    def test_setattr(self):
+        store = {}
+
+        class Dummy(object):
+            potal = store
+
+            def setsetting(self, key, value):
+                self.potal[key] = value
+        target = self._makeOne(Dummy())
+        target.settings = {'DRUM': 'before'}
+        target.DRUM = 'ritsu'
+        self.assertEqual(store['DRUM'], 'ritsu')
 
 
 class DBSettingStoreTest(TestCase):
