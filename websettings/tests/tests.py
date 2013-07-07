@@ -1,7 +1,8 @@
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 
 
 __all__ = (
+    'AdminRequiredTest',
     'DBBackendTest',
     'DBSettingStoreTest',
 )
@@ -44,6 +45,39 @@ class DBBackendTest(TestCase):
 
         result = self._get_setting(key='BOSS')
         self.assertEqual(result.value, 'ritsu')
+
+
+class AdminRequiredTest(TestCase):
+    def _getTarget(self):
+        from websettings.authentication import admin_required
+        return admin_required
+
+    def _makeOne(self):
+        def dummy(request):
+            return 'dummy response'
+        target = self._getTarget()
+        return target(dummy)
+
+    def _get_request(self, *args, **kwargs):
+        rf = RequestFactory()
+        return rf.get(*args, **kwargs)
+
+    def test_it_with_staff(self):
+        from django.contrib.auth.models import User
+        target = self._makeOne()
+        req = self._get_request(path='/test/')
+        req.user = User(username='dummy', is_staff=True)
+        result = target(req)
+        self.assertEqual('dummy response', result)
+
+    def test_it_with_anonymous(self):
+        from django.contrib.auth.models import AnonymousUser
+        target = self._makeOne()
+        req = self._get_request(path='/test/')
+        req.user = AnonymousUser()
+        with self.settings(LOGIN_URL='/dummy/'):
+            result = target(req)
+            self.assertEqual(result['Location'], '/dummy/')
 
 
 class DBSettingStoreTest(TestCase):
