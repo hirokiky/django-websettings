@@ -44,3 +44,6 @@ class SettingStore(object):
         else:
             return super(SettingStore, self).__setattr__(key, value)
 
+    def __iter__(self):
+        for key in self.settings.keys():
+            yield key, getattr(self, key)
