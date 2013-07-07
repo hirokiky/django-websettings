@@ -7,16 +7,16 @@ __all__ = (
 
 
 class DBSettingStoreTest(TestCase):
-    def makeOne(self):
+    def _getTarget(self):
         from websettings import websettings
         return websettings
 
     def test_get(self):
-        store = self.makeOne()
-        self.assertEqual(store.TEST_SETTING, 'before')
+        target = self._getTarget()
+        self.assertEqual(target.TEST_SETTING, 'before')
 
     def test_get_with_db(self):
         from websettings.models import Setting
         Setting.objects.create(key='TEST_SETTING', value='after')
-        store = self.makeOne()
-        self.assertEqual(store.TEST_SETTING, 'after')
+        target = self._getTarget()
+        self.assertEqual(target.TEST_SETTING, 'after')
