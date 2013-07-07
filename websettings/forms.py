@@ -1,6 +1,7 @@
+from functools import partial
+
 from django import forms
 from django.utils.datastructures import SortedDict
-from django.utils.functional import curry
 
 from websettings import websettings
 
@@ -8,7 +9,7 @@ from websettings import websettings
 def get_settingstore_fields():
     fields = [(k, forms.CharField(max_length=255,
                                   label=k,
-                                  initial=curry(getattr, websettings, k)))
+                                  initial=partial(getattr, websettings, k)))
               for k in websettings.settings.keys()]
     return SortedDict(fields)
 
