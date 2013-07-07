@@ -16,4 +16,5 @@ def setsetting(key, value):
         s.value = value
         s.save()
     except Setting.DoesNotExist:
-        pass
+        Setting.objects.create(key=key,
+                               value=value)
