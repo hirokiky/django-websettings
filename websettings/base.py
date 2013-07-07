@@ -24,12 +24,15 @@ class SettingStoreMetaClass(type):
 class SettingStore(object):
     __metaclass__ = SettingStoreMetaClass
 
+    # For more testable
+    backend_module = backend_module
+
     def __getattr__(self, item):
         if item == item.upper():
             if item not in self.settings.keys():
                 raise AttributeError
             try:
-                attr = backend_module.getsetting(item)
+                attr = self.backend_module.getsetting(item)
             except AttributeError:
                 attr = self.settings[item]
             return attr
@@ -40,7 +43,7 @@ class SettingStore(object):
         if key == key.upper():
             if key not in self.settings.keys():
                 raise AttributeError
-            backend_module.setsetting(key, value)
+            self.backend_module.setsetting(key, value)
         else:
             return super(SettingStore, self).__setattr__(key, value)
 
