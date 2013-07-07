@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import redirect
+from django.shortcuts import HttpResponseRedirect
 
 
 def admin_required(view_func):
@@ -7,6 +7,6 @@ def admin_required(view_func):
         if request.user.is_authenticated() and request.user.is_staff:
             return view_func(request, *args, **kwargs)
         else:
-            return redirect(settings.LOGIN_URL)
+            return HttpResponseRedirect(settings.LOGIN_URL)
 
     return wrapper
