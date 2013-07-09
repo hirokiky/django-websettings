@@ -37,7 +37,7 @@ class SettingStore(object):
                 attr = self.settings[item]
             return attr
         else:
-            return super(SettingStore, self).__getattr__(item)
+            return super(SettingStore, self).__getattribute__(item)
 
     def __setattr__(self, key, value):
         if key == key.upper():
