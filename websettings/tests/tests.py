@@ -1,5 +1,7 @@
 from django.test import TestCase, RequestFactory
 
+from websettings.testing import override_websettings
+
 
 __all__ = (
     'AdminRequiredTest',
@@ -7,6 +9,7 @@ __all__ = (
     'DBSettingStoreTest',
     'SettingStoreTest',
     'SettingStoreFormTest',
+    'EditViewTest',
 )
 
 
@@ -175,3 +178,46 @@ class SettingStoreFormTest(TestCase):
         target.save()
 
         self.assertEqual('mio', store['BOSS'])
+
+
+class EditViewTest(TestCase):
+    def _getTarget(self):
+        from websettings.views import edit_view
+        return edit_view
+
+    def test_get(self):
+        from django.contrib.auth.models import User
+
+        rf = RequestFactory()
+        request = rf.get('/dummy')
+        request.user = User(username='dummy', is_staff=True)
+
+        with override_websettings(BOSS='ritsu'):
+            from websettings.forms import SettingStoreForm
+            target = self._getTarget()
+
+            result = target(request)
+            form = result.context_data['form']
+
+            self.assertTrue(isinstance(form, SettingStoreForm))
+            self.assertEqual({'TEST_SETTING', 'BOSS'},
+                             set(form.fields.keys()))
+            self.assertTemplateUsed(result, 'websettings/edit.html')
+
+    def test_post(self):
+        from django.contrib.auth.models import User
+
+        rf = RequestFactory()
+        request = rf.post('/dummy',
+                          {'TEST_SETTING': 'after',
+                           'BOSS': 'mio'})
+        request.user = User(username='dummy', is_staff=True)
+
+        with override_websettings(BOSS='ritsu'):
+            from websettings import websettings
+            target = self._getTarget()
+            result = target(request)
+
+            self.assertEqual(websettings.TEST_SETTING, 'after')
+            self.assertEqual(websettings.BOSS, 'mio')
+            self.assertEqual(302, result.status_code)
