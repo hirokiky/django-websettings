@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils import six
 from django.utils.importlib import import_module
 
 from websettings.backends import backend_module
@@ -21,9 +22,7 @@ class SettingStoreMetaClass(type):
         return new_class
 
 
-class SettingStore(object):
-    __metaclass__ = SettingStoreMetaClass
-
+class SettingStore(six.with_metaclass(SettingStoreMetaClass, object)):
     # For more testable
     backend_module = backend_module
 

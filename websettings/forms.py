@@ -1,6 +1,7 @@
 from functools import partial
 
 from django import forms
+from django.utils import six
 from django.utils.datastructures import SortedDict
 
 from websettings import websettings
@@ -34,8 +35,6 @@ class BaseSettingStoreForm(forms.BaseForm):
             raise ValueError('Form needs cleaned_data')
 
 
-class SettingStoreForm(BaseSettingStoreForm):
-    __metaclass__ = SettingStoreFieldsMetaclass
-
+class SettingStoreForm(six.with_metaclass(SettingStoreFieldsMetaclass, BaseSettingStoreForm)):
     # For more testable
     setting_store = websettings
