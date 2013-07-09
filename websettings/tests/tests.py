@@ -6,6 +6,7 @@ __all__ = (
     'DBBackendTest',
     'DBSettingStoreTest',
     'SettingStoreTest',
+    'SettingStoreFormTest',
 )
 
 
@@ -128,3 +129,49 @@ class DBSettingStoreTest(TestCase):
         Setting.objects.create(key='TEST_SETTING', value='after')
         target = self._getTarget()
         self.assertEqual(target.TEST_SETTING, 'after')
+
+
+class SettingStoreFormTest(TestCase):
+    def _getTarget(self):
+        from websettings.forms import SettingStoreForm
+        return SettingStoreForm
+
+    def _makeOne(self, store):
+        target = self._getTarget()
+
+        class TestSettingStoreForm(target):
+            setting_store = store
+
+        return TestSettingStoreForm()
+
+    def test_it(self):
+        from django import forms
+
+        store = {}
+
+        class DummySettingStore(object):
+            portal = store
+            settings = {'BOSS': 'ritsu'}
+
+            def __setattr__(self, key, value):
+                self.portal[key] = value
+
+            def __getattr__(self, item):
+                if item == item.upper():
+                    return 'dummy'
+                else:
+                    return super(DummySettingStore, self).__getattribute__(item)
+
+        dummy = DummySettingStore()
+        target = self._makeOne(dummy)
+
+        target_field = target.fields['BOSS']
+        self.assertTrue(isinstance(target_field, forms.CharField))
+        self.assertEqual(255, target_field.max_length)
+        self.assertEqual('BOSS', target_field.label)
+        self.assertEqual('dummy', target_field.initial())
+
+        target.cleaned_data = {'BOSS': 'mio'}
+        target.save()
+
+        self.assertEqual('mio', store['BOSS'])
