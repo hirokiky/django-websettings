@@ -21,4 +21,5 @@ setup(name='django-websettings',
       install_requires=[
           'django>=1.5',
       ],
+      test_suite='runtest.main',
 )
