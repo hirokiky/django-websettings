@@ -31,6 +31,7 @@ def main():
         'django.contrib.auth.middleware.AuthenticationMiddleware',
     )
     global_settings.SECRET_KEY = "secret_key_for_testing"
+    global_settings.ROOT_URLCONF = "websettings.urls"
 
     global_settings.WEBSETTINGS_MODULE = 'websettings.tests.settingstore'
 
