@@ -6,7 +6,12 @@ setup(name='django-websettings',
       description="Django application to provide a web interface "
                   "to set a yet another django's settings",
       classifiers=[
-        "Programming Language :: Python",
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: MIT License",
+        "Environment :: Web Environment",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.2",
+        "Programming Language :: Python :: 3.3",
         "Framework :: Django",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
