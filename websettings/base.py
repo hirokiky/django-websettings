@@ -47,3 +47,6 @@ class SettingStore(six.with_metaclass(SettingStoreMetaClass, object)):
     def __iter__(self):
         for key in self.settings.keys():
             yield key, getattr(self, key)
+
+    def __len__(self):
+        return len(self.settings)
