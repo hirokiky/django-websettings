@@ -2,6 +2,9 @@
 django-websettings
 ==================
 
+.. image:: https://travis-ci.org/hirokiky/django-websettings.png
+   :target: https://travis-ci.org/hirokiky/django-websettings
+
 Django application to provide a web interface
 to set a yet another django's settings.
 
