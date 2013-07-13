@@ -51,6 +51,16 @@ class DBBackendTest(TestCase):
         result = self._get_setting(key='BOSS')
         self.assertEqual(result.value, 'ritsu')
 
+    def test_exclude_clear(self):
+        from django.core.exceptions import ObjectDoesNotExist
+        self._set_setting(key='DRUM', value='ritsu')
+        self._set_setting(key='BASS', value='mio')
+        target = self._getTarget()
+        target.exclude_clear(['DRUM'])
+
+        self.assertEqual(self._get_setting(key='DRUM').value, 'ritsu')
+        self.assertRaises(ObjectDoesNotExist, self._get_setting, key='BASS')
+
 
 class AdminRequiredTest(TestCase):
     def _getTarget(self):
@@ -116,6 +126,20 @@ class SettingStoreTest(TestCase):
         target.settings = {'DRUM': 'before'}
         target.DRUM = 'ritsu'
         self.assertEqual(store['DRUM'], 'ritsu')
+
+    def test_clear_trash(self):
+        store = {}
+
+        class Dummy(object):
+            portal = store
+
+            def exclude_clear(self, exclude_keys):
+                self.portal['exclude_keys'] = exclude_keys
+
+        target = self._makeOne(Dummy())
+        target.settings = {'DRUM': 'ritsu'}
+        target.clear_trash()
+        self.assertEqual(['DRUM'], store['exclude_keys'])
 
 
 class DBSettingStoreTest(TestCase):

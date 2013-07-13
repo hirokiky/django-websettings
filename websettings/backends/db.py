@@ -18,3 +18,7 @@ def setsetting(key, value):
     except Setting.DoesNotExist:
         Setting.objects.create(key=key,
                                value=value)
+
+
+def exclude_clear(exclude_keys):
+    Setting.objects.exclude(key__in=exclude_keys).delete()
