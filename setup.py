@@ -28,7 +28,7 @@ setup(name='django-websettings',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'django>=1.5',
+          'django>=1.4, <1.6',
       ],
       test_suite='runtest.main',
 )
