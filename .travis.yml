@@ -8,6 +8,6 @@ env:
   - DJANGO_VERSION=1.4
   - DJANGO_VERSION=1.5
 install:
-  - pip install -q Django==$DJANGO_VERSION
-  - python setup.py -q install
-script: python setup.py test
+  - if [[ !($TRAVIS_PYTHON_VERSION == 3 && DJANGO_VERSION == 1.4) ]]; then pip install -q Django==$DJANGO_VERSION && python setup.py -q install; fi
+script:
+  - if [[ !($TRAVIS_PYTHON_VERSION == 3 && DJANGO_VERSION == 1.4) ]]; then python setup.py test; fi
