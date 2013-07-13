@@ -52,5 +52,5 @@ class SettingStore(six.with_metaclass(SettingStoreMetaClass, object)):
         return len(self.settings)
 
     def clear_trash(self):
-        exclude_keys = self.settings.keys()
+        exclude_keys = list(self.settings)
         self.backend_module.exclude_clear(exclude_keys)
