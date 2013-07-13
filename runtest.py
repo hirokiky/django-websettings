@@ -37,12 +37,8 @@ def main():
 
     from django.test.utils import get_runner
     test_runner = get_runner(global_settings)
-
-    if django.VERSION >= (1, 5):
-        test_runner = test_runner()
-        failures = test_runner.run_tests(['websettings'])
-    else:
-        failures = test_runner(['websettings'], verbosity=1)
+    test_runner = test_runner()
+    failures = test_runner.run_tests(['websettings'])
     sys.exit(failures)
 
 if __name__ == '__main__':
