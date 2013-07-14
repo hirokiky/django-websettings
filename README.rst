@@ -38,7 +38,7 @@ web interface...:
 
 .. code-block:: python
 
-    >>> websettings.TEST_WEBSETTING
+    >>> websettings.HTT_BASS_PLAYER
     'Jun Suzuki'
 
 Resources
