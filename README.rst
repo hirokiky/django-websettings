@@ -22,79 +22,29 @@ The setting file will be like this:
 
 .. code-block:: python
 
-    TEST_WEBSETTING = 'default value'
-    SPAM = 'default spam'
+    HTT_DRUM_PLAYER = 'Ritsu Tainaka'
+    HTT_BASS_PLAYER = 'Mio Akiyama'
 
 Then you can get setting values from websettings.
 
 .. code-block:: python
 
     >>> from websettings import websettings
-    >>> websettings.TEST_WEBSETTING
-    'default value'
+    >>> websettings.HTT_BASS_PLAYER
+    'Mio Akiyama'
 
-After you set overriding value (like 'after value') by using
+After you set overriding value (like 'Jun Suzuki') by using
 web interface...:
 
 .. code-block:: python
 
     >>> websettings.TEST_WEBSETTING
-    'after value'
+    'Jun Suzuki'
 
-Install
-=======
+Resources
+=========
 
-This library is registered in PyPI as ``django-websettings``.
-You can install it as much as you like.
-
-Setting
-=======
-
-Websettings file
-----------------
-
-The position of the setting file is specified by a WEBSETTINGS_MODULE
-in your project's settings.py file:
-
-.. code-block:: python
-
-    # In your settings.py file.
-    WEBSETTING_MODULE = 'yourproject.websettings'
-
-Under project directory seems good.
-You should put these setting key's by UPPER_CASE.
-
-Web interface URL
------------------
-
-The url to web interface to set setting values can be included like this:
-
-.. code-block:: python
-
-    # In your urls.py file.
-    url(r'^websettings/', include('websettings.urls'))
-
-The admin user can only access this page.
-
-Backend
--------
-
-django-websettings is designed to correspond to multiple backend
-to store settings.
-
-You can specify the back end module to set a WEBSETTINGS_BACKEND
-in your project's setting.py file:
-
-.. code-block:: python
-
-    # In your settings.py file
-    WEBSETTINGS_BACKEND = 'path.to.backend_module'
-
-A DB backend (websetting.backends.db) is used by default.
-
-Testing
-=======
-
-django-websettings is tested by some environments,
-check out the `Travis CI report
-<https://travis-ci.org/hirokiky/django-websettings>`_.
+- `Docs <https://django-websettings.readthedocs.org/en/latest/>`_
+- `PyPI <https://pypi.python.org/pypi/django-websettings>`_
+- `Code <https://github.com/hirokiky/django-websettings>`_
+- `Testing <https://travis-ci.org/hirokiky/django-websettings>`_
