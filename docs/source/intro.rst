@@ -25,23 +25,6 @@ To install django-websettings, you should just install
 
     $ pip install django-websettings
 
-And add line to INSTALLED_APPS to your settings.py:
-
-.. code-block:: python
-
-    INSTALLED_APPS = (
-        ...
-        'websettings',
-        ...
-    )
-
-Then sync to your DB:
-
-.. code-block:: sh
-
-    $ python manage.py syncdb
-
-
 Websettings file
 ^^^^^^^^^^^^^^^^
 
@@ -63,7 +46,24 @@ settings.py file:
 .. code-block:: python
 
     # In your settings.py file.
-    WEBSETTING_MODULE = 'yourproject.websettings'
+    WEBSETTINGS_MODULE = 'yourproject.websettings'
+
+
+And add line to INSTALLED_APPS to your settings.py:
+
+.. code-block:: python
+
+    INSTALLED_APPS = (
+        ...
+        'websettings',
+        ...
+    )
+
+Then sync to your DB:
+
+.. code-block:: sh
+
+    $ python manage.py syncdb
 
 Web interface URL
 ^^^^^^^^^^^^^^^^^
