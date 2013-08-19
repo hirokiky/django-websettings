@@ -28,8 +28,8 @@ Setting values:
 .. code-block:: python
 
     # In websettings.py file
-    HTTP_DRUM_PLAYER = 'Ritsu Tainaka'
-    HTTP_BASS_PLAYER = 'Mio Akiyama'
+    HTT_DRUM_PLAYER = 'Ritsu Tainaka'
+    HTT_BASS_PLAYER = 'Mio Akiyama'
 
 Getting setting values:
 
